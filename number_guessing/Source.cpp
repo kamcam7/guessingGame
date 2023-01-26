@@ -36,13 +36,16 @@ void helperfun()
 //Only give the user a set number of tries until they get gameover.
 //If they guess the random number, tell them they win.
 //If they guess a wrong number, tell them "wrong try again you have {attempst} remaining."
-void guessingGame()
+void guessingGame(int numtries, int maxnum, bool cheatmode)
 {
 	srand((unsigned)time(NULL));
 	int userguess = NULL;
-	int rangenum = 30;
+	int rangenum = maxnum;
 	int randomnum = 1 + (rand() % rangenum);
-	int numguesses = 5;
+	int numguesses = numtries;
+	bool cheating = cheatmode;
+
+
 	string welcomemessage = "Hello, please guess a number between 1 and " + to_string(rangenum) + ".You have " + to_string(numguesses) + " guesses.\n";
 	cout << welcomemessage;
 
@@ -52,6 +55,10 @@ void guessingGame()
 
 
 	do {
+		if (cheating)
+		{
+			cout << "CHEAT: [" << randomnum << "]" << endl;
+		}
 		cin >> userguess;
 		numguesses = numguesses - 1;
 		if (userguess == randomnum)
@@ -64,6 +71,7 @@ void guessingGame()
 		else
 		{
 			cout << "incorrect, try again" << endl;
+			cout << "you have " << numguesses << " remaining.";
 
 		}
 		
@@ -77,7 +85,39 @@ void guessingGame()
 
 int main()
 {
-	guessingGame();
+
+	cout << "How many tries would you like?:";
+	int mytries = NULL;
+	cin >> mytries;
+	cout << endl;
+
+	cout << "What range of numbers would you like?:";
+		int myrange = NULL;
+		bool cheatson = NULL;
+		cin >> myrange;
+		cout << endl;
+
+		cout << "Are you cheating[Y/N]:";
+			char mycheating = NULL;
+			cin >> mycheating;
+			if (mycheating == 'Y')
+			{
+				cheatson = true;
+			}
+			else if (mycheating == 'N')
+			{
+				cheatson = false;
+			}
+			else
+			{
+				cout << "cheating input not understood. Defaulitng to not cheating" << endl;
+				cheatson = false;
+			}
+
+
+
+
+	guessingGame(mytries,myrange,cheatson);
 
 
 	return 0;
